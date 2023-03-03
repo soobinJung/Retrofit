@@ -1,6 +1,6 @@
 package com.rsn.test.api.qna.vo.request;
 
-import com.rsn.test.api.qna.vo.QnaVO;
+import com.rsn.test.api.qna.vo.LabelQnaDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -14,8 +14,8 @@ public class PatchQna {
     @NotBlank(message = "lqnContent을 입력해주세요.")
     String lqnContent;
 
-    public QnaVO toQnaVO(){
-        return QnaVO.builder()
+    public LabelQnaDTO toQnaVO(){
+        return LabelQnaDTO.builder()
                 .lqnTitle(lqnTitle)
                 .lqnContent(lqnContent)
                 .build();

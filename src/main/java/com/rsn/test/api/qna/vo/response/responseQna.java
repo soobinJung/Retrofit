@@ -1,5 +1,6 @@
 package com.rsn.test.api.qna.vo.response;
 
+import com.rsn.test.api.qna.vo.LabelQnaDTO;
 import com.rsn.test.domain.LabelQna;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class responseQna {
     LocalDate updDate;
     Long updSeq;
 
-    public responseQna(LabelQna vo){
+    public responseQna(LabelQnaDTO vo){
 
         if(vo == null){
             return;

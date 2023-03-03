@@ -1,6 +1,6 @@
 package com.rsn.test.api.qna.vo.request;
 
-import com.rsn.test.api.qna.vo.QnaVO;
+import com.rsn.test.api.qna.vo.LabelQnaDTO;
 import lombok.*;
 import org.springframework.data.domain.Pageable;
 
@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 public class GetQna {
     String lqnTitle;
     String lqnContent;
-    public QnaVO toQnaVO(Pageable pageable){
-        return QnaVO.builder()
+    public LabelQnaDTO toQnaVO(Pageable pageable){
+        return LabelQnaDTO.builder()
                 .lqnTitle(lqnTitle)
                 .lqnContent(lqnContent)
                 .pageable(pageable)

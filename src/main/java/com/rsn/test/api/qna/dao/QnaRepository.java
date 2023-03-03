@@ -1,7 +1,8 @@
 package com.rsn.test.api.qna.dao;
 
 import com.querydsl.core.QueryResults;
-import com.rsn.test.api.qna.vo.QnaVO;
+import com.querydsl.core.types.Projections;
+import com.rsn.test.api.qna.vo.LabelQnaDTO;
 import com.rsn.test.config.db.jpa.JpaManager;
 import com.rsn.test.config.db.jpa.poms.annotation.PomsJpaManager;
 import com.rsn.test.domain.LabelQna;
@@ -21,12 +22,28 @@ import static com.rsn.test.api.qna.spec.QnaSpec.spec;
 @Repository
 public class QnaRepository {
 
-    @Autowired @PomsJpaManager
+    @PomsJpaManager @Autowired
     JpaManager jm;
 
-    public QueryResults<LabelQna> test(QnaVO vo){
-
-        return jm.query.selectFrom(labelQna)
+    /**
+     * QNA 전체 조회
+     *  - 페이징
+     *  - 검색
+     */
+    public QueryResults<LabelQnaDTO> selectQnaList(LabelQnaDTO vo){
+        return jm.query.select(
+                        Projections.bean(LabelQnaDTO.class
+                            , labelQna.id
+                            , labelQna.lqnTitle
+                            , labelQna.lqnContent
+                            , labelQna.lqnAnswer
+                            , labelQna.regDate
+                            , labelQna.regSeq
+                            , labelQna.updDate
+                            , labelQna.updSeq
+                        )
+                    )
+                    .from(labelQna)
                     .where(
                             spec.lqnTitleEq(vo.getLqnTitle())
                             , spec.lqnContentEq(vo.getLqnContent())
@@ -41,31 +58,12 @@ public class QnaRepository {
 
 
     /**
-     * QNA 전체 조회
-     *  - 페이징
-     *  - 검색
-     */
-    public QueryResults<LabelQna> selectQnaList(QnaVO vo){
-        return jm.query.selectFrom(labelQna)
-                        .where(
-                                spec.lqnTitleEq(vo.getLqnTitle())
-                                , spec.lqnContentEq(vo.getLqnContent())
-                                , spec.lqnAnswerEq(vo.getLqnAnswer())
-                                , labelQna.useYn.like("Y")
-                        )
-                        .offset(vo.getPageable().getOffset())
-                        .limit(vo.getPageable().getPageSize() + 1)
-                        .orderBy(spec.getAllOrderSpecifiers(vo.getPageable()))
-                        .fetchResults();
-    }
-
-
-    /**
      * QNA 단일 조회
      */
-    public LabelQna selectQnaById(Long qnaId){
+    public LabelQnaDTO selectQnaById(Long qnaId){
         return jm.query
-                .selectFrom(labelQna)
+                .select(Projections.fields(LabelQnaDTO.class))
+                .from(labelQna)
                 .where(
                         labelQna.id.eq(qnaId)
                         , labelQna.useYn.like("Y")

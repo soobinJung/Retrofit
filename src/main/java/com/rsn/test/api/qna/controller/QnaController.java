@@ -2,6 +2,7 @@ package com.rsn.test.api.qna.controller;
 
 import com.querydsl.core.QueryResults;
 import com.rsn.test.api.qna.service.QnaService;
+import com.rsn.test.api.qna.vo.LabelQnaDTO;
 import com.rsn.test.api.qna.vo.request.GetQna;
 import com.rsn.test.api.qna.vo.request.PatchQna;
 import com.rsn.test.api.qna.vo.request.PatchQnaAnswer;
@@ -32,31 +33,10 @@ public class QnaController {
      *  - 페이징
      *  - 검색
      */
-    @GetMapping("/tt")
-    public PageImpl test(@Validated GetQna qna, BindingResult bindingResult, Pageable pageable){
-        validator.check(bindingResult);
-
-        QueryResults<LabelQna> results = qnaService.test(qna.toQnaVO(pageable));
-
-        return new PageImpl<>(
-                results.getResults().stream()
-                        .map(responseQna::new)
-                        .collect(Collectors.toList())
-                , pageable
-                , results.getTotal()
-        );
-    }
-
-
-    /**
-     * QNA 전체 조회
-     *  - 페이징
-     *  - 검색
-     */
     @GetMapping("")
     public PageImpl selectQnaList(@Validated GetQna qna, BindingResult bindingResult, Pageable pageable){
         validator.check(bindingResult);
-        QueryResults<LabelQna> results = qnaService.selectQnaList(qna.toQnaVO(pageable));
+        QueryResults<LabelQnaDTO> results = qnaService.selectQnaList(qna.toQnaVO(pageable));
         return new PageImpl<>(
                 results.getResults().stream()
                         .map(responseQna::new)

@@ -1,7 +1,7 @@
 package com.rsn.test.config.db.jpa.poms.jpa;
 
 import com.rsn.test.config.db.jpa.JpaManager;
-import com.rsn.test.config.db.jpa.poms.PomsConfiguration;
+import com.rsn.test.config.db.config.PomsConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -63,7 +63,6 @@ public class JpaConfig extends PomsConfiguration {
     public static class PomsJpaBeans {
         @PersistenceContext(unitName = "PomsPersistence")
         EntityManager entityManager;
-
         JpaManager jpaManager;
 
         @PostConstruct
